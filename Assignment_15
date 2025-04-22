@@ -1,0 +1,72 @@
+#include <iostream>
+using namespace std;
+
+class Shape {
+public:
+    virtual void printShape() {
+        cout << "This is a shape" << endl;
+    }
+};
+
+class Polygon : public Shape {
+public:
+    void printShape() override {
+        cout << "Polygon is a shape" << endl;
+    }
+};
+
+class Rectangle : public Polygon {
+public:
+    void printShape() override {
+        cout << "Rectangle is a polygon" << endl;
+    }
+};
+
+class Triangle : public Polygon {
+public:
+    void printShape() override {
+        cout << "Triangle is a polygon" << endl;
+    }
+};
+
+class Square : public Rectangle {
+public:
+    void printShape() override {
+        cout << "Square is a rectangle" << endl;
+    }
+};
+
+int main() {
+    Shape s;
+    Polygon p;
+    Rectangle r;
+    Triangle t;
+    Square sq;
+
+    cout << "Calling function directly from each object:\n";
+    s.printShape();
+    p.printShape();
+    r.printShape();
+    t.printShape();
+    sq.printShape();
+
+    cout << "\nCalling function using base class pointer (demonstrating polymorphism):\n";
+    Shape* shapePtr;
+
+    shapePtr = &s;
+    shapePtr->printShape();
+
+    shapePtr = &p;
+    shapePtr->printShape();
+
+    shapePtr = &r;
+    shapePtr->printShape();
+
+    shapePtr = &t;
+    shapePtr->printShape();
+
+    shapePtr = &sq;
+    shapePtr->printShape();
+
+    return 0;
+}
