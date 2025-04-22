@@ -1,0 +1,42 @@
+#include <iostream>
+using namespace std;
+class Mammals {
+public:
+    void displayMammal() {
+        cout << "I am part of the Mammals group." << endl;
+    }
+};
+class MarineAnimals {
+public:
+    void displayMarine() {
+        cout << "I live in the marine world." << endl;
+    }
+};
+class BlueWhale : public Mammals, public MarineAnimals {
+public:
+    void displayBlueWhale() {
+        cout << "I belong to both Mammals and Marine Animals." << endl;
+    }
+};
+
+int main() {
+    Mammals mammalObj;
+    MarineAnimals marineObj;
+    BlueWhale whaleObj;
+
+    mammalObj.displayMammal();
+    marineObj.displayMarine();
+    whaleObj.displayBlueWhale();
+
+    whaleObj.displayMammal();
+    whaleObj.displayMarine();
+    return 0;
+}
+
+ OUTPUT 
+I am part of the Mammals group.
+I live in the marine world.
+I belong to both Mammals and Marine Animals.
+I am part of the Mammals group.
+I live in the marine world.
+
