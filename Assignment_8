@@ -1,0 +1,87 @@
+8. Cinema
+A program to deal with the day-to-day administration of bookings for a Cinema for a single day. Each
+day there are three separate performances. An early afternoon performance at 1pm, an early evening
+performance at 5pm, and the main performance at 8.30pm. The program should be able to handle the
+booking of cinema seats for any of these three performances and supply details about the remaining
+seats for a particular performance.
+
+SOURCE CODE
+
+#include <iostream>
+using namespace std;
+
+class Performance {
+private:
+    int totalSeats;
+    int bookedSeats;
+    string time;
+
+public:
+    Performance(string showTime, int seats = 100) {
+        time = showTime;
+        totalSeats = seats;
+        bookedSeats = 0;
+    }
+
+    void bookSeats(int n) {
+        if (n <= (totalSeats - bookedSeats)) {
+            bookedSeats += n;
+            cout << n << " seat(s) booked for " << time << " show.\n";
+        } else {
+            cout << "Not enough seats available! Only " << (totalSeats - bookedSeats) << " left.\n";
+        }
+    }
+
+    void showRemainingSeats() const {
+        cout << "Remaining seats for " << time << " show: " << (totalSeats - bookedSeats) << endl;
+    }
+};
+
+int main() {
+    Performance show1("1:00 PM");
+    Performance show2("5:00 PM");
+    Performance show3("8:30 PM");
+
+    int choice;
+    do {
+        cout << "\n--- Cinema Booking System ---\n";
+        cout << "1. Book Seats for 1:00 PM Show\n";
+        cout << "2. Book Seats for 5:00 PM Show\n";
+        cout << "3. Book Seats for 8:30 PM Show\n";
+        cout << "4. Show Remaining Seats\n";
+        cout << "5. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        int num;
+        switch (choice) {
+            case 1:
+                cout << "Enter number of seats to book: ";
+                cin >> num;
+                show1.bookSeats(num);
+                break;
+            case 2:
+                cout << "Enter number of seats to book: ";
+                cin >> num;
+                show2.bookSeats(num);
+                break;
+            case 3:
+                cout << "Enter number of seats to book: ";
+                cin >> num;
+                show3.bookSeats(num);
+                break;
+            case 4:
+                show1.showRemainingSeats();
+                show2.showRemainingSeats();
+                show3.showRemainingSeats();
+                break;
+            case 5:
+                cout << "Thank you for using the Cinema Booking System!\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 5);
+
+    return 0;
+}
