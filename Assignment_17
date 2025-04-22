@@ -1,0 +1,174 @@
+17. Write a program to implement bank functionality in the above scenario. Note: Create few classes
+namely Customer, Account, RBI (Base Class) and few derived classes (SBI, ICICI, PNB etc). Assume
+and implement required member variables and functions in each class.
+
+SOURCE CODE
+
+#include <iostream>
+using namespace std;
+class RBI {
+protected:
+    float minInterestRate = 4.0;
+    float minBalance = 1000.0;
+    float maxWithdrawal = 10000.0;
+
+public:
+    virtual void showPolicy() {
+        cout << "\n--- RBI Base Policy ---\n";
+        cout << "Minimum Interest Rate: " << minInterestRate << "%\n";
+        cout << "Minimum Balance: Rs " << minBalance << endl;
+        cout << "Max Withdrawal Limit: Rs " << maxWithdrawal << endl;
+    }
+
+    virtual void bankPolicy() = 0; // pure virtual
+};
+
+class Customer {
+public:
+    string name;
+    int customerID;
+
+    void inputCustomer() {
+        cout << "Enter Customer Name: ";
+        cin >> name;
+        cout << "Enter Customer ID: ";
+        cin >> customerID;
+    }
+
+    void displayCustomer() {
+        cout << "Customer Name: " << name << ", ID: " << customerID << endl;
+    }
+};
+
+class Account {
+protected:
+    int accountNumber;
+    float balance;
+
+public:
+    void openAccount(int accNo, float openingBalance) {
+        accountNumber = accNo;
+        balance = openingBalance;
+    }
+
+    void deposit(float amount) {
+        balance += amount;
+        cout << "Rs " << amount << " deposited successfully.\n";
+    }
+
+    void withdraw(float amount, float maxLimit) {
+        if (amount > balance) {
+            cout << "Insufficient balance!\n";
+        } else if (amount > maxLimit) {
+            cout << "Amount exceeds withdrawal limit!\n";
+        } else {
+            balance -= amount;
+            cout << "Rs " << amount << " withdrawn successfully.\n";
+        }
+    }
+
+    void showBalance() {
+        cout << "Account No: " << accountNumber << ", Balance: Rs " << balance << endl;
+    }
+};
+
+class SBI : public RBI {
+public:
+    void bankPolicy() override {
+        cout << "\n--- SBI Policy ---\n";
+        cout << "Interest Rate: 4.5%\n";
+        cout << "Minimum Balance: Rs 1000\n";
+        cout << "Max Withdrawal: Rs 15000\n";
+    }
+
+    float getWithdrawalLimit() { return 15000.0; }
+};
+
+class ICICI : public RBI {
+public:
+    void bankPolicy() override {
+        cout << "\n--- ICICI Policy ---\n";
+        cout << "Interest Rate: 5%\n";
+        cout << "Minimum Balance: Rs 3000\n";
+        cout << "Max Withdrawal: Rs 12000\n";
+    }
+
+    float getWithdrawalLimit() { return 12000.0; }
+};
+
+class PNB : public RBI {
+public:
+    void bankPolicy() override {
+        cout << "\n--- PNB Policy ---\n";
+        cout << "Interest Rate: 4.25%\n";
+        cout << "Minimum Balance: Rs 1500\n";
+        cout << "Max Withdrawal: Rs 10000\n";
+    }
+
+    float getWithdrawalLimit() { return 10000.0; }
+};
+
+int main() {
+    Customer cust;
+    Account acc;
+    SBI sbi;
+    ICICI icici;
+    PNB pnb;
+    RBI* bank = nullptr;
+
+    int choice, accNo;
+    float amount;
+
+    cout << "--- Welcome to Banking System ---\n";
+    cust.inputCustomer();
+    cout << "Enter Account Number: ";
+    cin >> accNo;
+    acc.openAccount(accNo, 1000); // default opening balance
+
+    cout << "\nSelect Bank:\n1. SBI\n2. ICICI\n3. PNB\nChoice: ";
+    cin >> choice;
+
+    switch (choice) {
+        case 1: bank = &sbi; break;
+        case 2: bank = &icici; break;
+        case 3: bank = &pnb; break;
+        default: cout << "Invalid choice!\n"; return 0;
+    }
+
+    bank->showPolicy();
+    bank->bankPolicy();
+
+    int op;
+    do {
+        cout << "\n--- Banking Menu ---\n";
+        cout << "1. Deposit\n2. Withdraw\n3. Show Balance\n4. Show Customer Info\n5. Exit\nChoice: ";
+        cin >> op;
+
+        switch (op) {
+            case 1:
+                cout << "Enter amount to deposit: ";
+                cin >> amount;
+                acc.deposit(amount);
+                break;
+            case 2:
+                cout << "Enter amount to withdraw: ";
+                cin >> amount;
+                acc.withdraw(amount, (choice == 1 ? sbi.getWithdrawalLimit() :
+                                    (choice == 2 ? icici.getWithdrawalLimit() : pnb.getWithdrawalLimit())));
+                break;
+            case 3:
+                acc.showBalance();
+                break;
+            case 4:
+                cust.displayCustomer();
+                break;
+            case 5:
+                cout << "Thank you for banking with us!\n";
+                break;
+            default:
+                cout << "Invalid option!\n";
+        }
+    } while (op != 5);
+
+    return 0;
+}
