@@ -1,0 +1,171 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class Vehicle {
+public:
+    float mileage;
+    float price;
+    void vehicleInformation() {
+        cout << "Enter mileage (in km/l): ";
+        cin >> mileage;
+        cout << "Enter price (in Rs): ";
+        cin >> price;
+    }
+    void showVehicleInformation() {
+        cout << "Mileage: " << mileage << " km/l" << endl;
+        cout << "Price: Rs " << price << endl;
+    }
+};
+class Car : public Vehicle {
+public:
+    float ownershipCost;
+    int warranty;
+    int seatingCapacity;
+    string fuelType;
+
+    void carInformation() {
+        vehicleInformation();
+        cout << "Enter ownership cost: ";
+        cin >> ownershipCost;
+        cout << "Enter warranty (in years): ";
+        cin >> warranty;
+        cout << "Enter seating capacity: ";
+        cin >> seatingCapacity;
+        cout << "Enter fuel type (Petrol/Diesel): ";
+        cin >> fuelType;
+    }
+    void showCarInfo() {
+        showVehicleInformation();
+        cout << "Ownership Cost: Rs " << ownershipCost << endl;
+        cout << "Warranty: " << warranty << " years" << endl;
+        cout << "Seating Capacity: " << seatingCapacity << endl;
+        cout << "Fuel Type: " << fuelType << endl;
+    }
+};
+class Bike : public Vehicle {
+public:
+    int cylinders;
+    int gears;
+    string coolingType;
+    string wheelType;
+    float fuelTankSize;
+
+    void bikeInformation() {
+        vehicleInformation();
+        cout << "Enter number of cylinders: ";
+        cin >> cylinders;
+        cout << "Enter number of gears: ";
+        cin >> gears;
+        cout << "Enter cooling type (Air/Liquid/Oil): ";
+        cin >> coolingType;
+        cout << "Enter wheel type (Alloys/Spokes): ";
+        cin >> wheelType;
+        cout << "Enter fuel tank size (in inches): ";
+        cin >> fuelTankSize;
+    }
+
+    void showBikeInfo() {
+        showVehicleInformation();
+        cout << "Cylinders: " << cylinders << endl;
+        cout << "Gears: " << gears << endl;
+        cout << "Cooling Type: " << coolingType << endl;
+        cout << "Wheel Type: " << wheelType << endl;
+        cout << "Fuel Tank Size: " << fuelTankSize << " inches" << endl;
+    }
+};
+
+class Audi : public Car {
+public:
+    string modelType;
+
+    void inputAudiInfo() {
+        cin.ignore(); // Clear newline from buffer
+        cout << "Enter Audi model type: ";
+        getline(cin, modelType);
+        carInformation();
+    }
+
+    void showAudiInfo() {
+        cout << "\n--- Audi Car Information ---\n";
+        cout << "Model Type: " << modelType << endl;
+        showCarInfo();
+    }
+};
+class Ford : public Car {
+public:
+    string modelType;
+    void inputFordInfo() {
+        cin.ignore();
+        cout << "Enter Ford model type: ";
+        getline(cin, modelType);
+        carInformation();
+    }
+
+    void showFordInfo() {
+        cout << "\n--- Ford Car Information ---\n";
+        cout << "Model Type: " << modelType << endl;
+        showCarInfo();
+    }
+};
+
+class Bajaj : public Bike {
+public:
+    string makeType;
+
+    void inputBajajInfo() {
+        cin.ignore();
+        cout << "Enter Bajaj make type: ";
+        getline(cin, makeType);
+        bikeInformation();
+    }
+
+    void showBajajInfo() {
+        cout << "\n--- Bajaj Bike Information ---\n";
+        cout << "Make Type: " << makeType << endl;
+        showBikeInfo();
+    }
+};
+
+class TVS : public Bike {
+public:
+    string makeType;
+
+    void inputTVSInfo() {
+        cin.ignore();
+        cout << "Enter TVS make type: ";
+        getline(cin, makeType);
+        bikeInformation();
+    }
+
+    void showTVSInfo() {
+        cout << "\n--- TVS Bike Information ---\n";
+        cout << "Make Type: " << makeType << endl;
+        showBikeInfo();
+    }
+};
+
+// Main function
+int main() {
+    Audi audiCar;
+    Ford fordCar;
+    Bajaj bajajBike;
+    TVS tvsBike;
+
+    cout << "\nEnter Audi Details:\n";
+    audiCar.inputAudiInfo();
+
+    cout << "\nEnter Ford Details:\n";
+    fordCar.inputFordInfo();
+
+    cout << "\nEnter Bajaj Bike Details:\n";
+    bajajBike.inputBajajInfo();
+
+    cout << "\nEnter TVS Bike Details:\n";
+    tvsBike.inputTVSInfo();
+    audiCar.showAudiInfo();
+    fordCar.showFordInfo();
+    bajajBike.showBajajInfo();
+    tvsBike.showTVSInfo();
+
+    return 0;
+}
