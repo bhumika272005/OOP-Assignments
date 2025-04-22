@@ -1,0 +1,78 @@
+6. Create two classes DM and DB which store the value of distances. DM stores distance in meters
+and centimeters and DB in feet and inches. Write a program that can read values for the class objects
+and add one object of DM with another object of DB. Use a friend function to carry out the addition
+operation. The object that stores the results may be a DM object or DB object, depending on the units
+in which the results are required. The display should be in the format of feet and inches or meters and
+centimeters depending on the object on display.
+
+SOURCE CODE
+#include <iostream>
+using namespace std;
+
+class DB; 
+
+class DM {
+    float meters;
+    float centimeters;
+public:
+    void getData() {
+        cout << "Enter distance in meters and centimeters:\n";
+        cout << "Meters: ";
+        cin >> meters;
+        cout << "Centimeters: ";
+        cin >> centimeters;
+    }
+
+    void display() {
+        cout << "Distance = " << meters << " meters and " << centimeters << " centimeters\n";
+    }
+
+    friend DM add(DM, DB); 
+};
+
+class DB {
+    float feet;
+    float inches;
+public:
+    void getData() {
+        cout << "Enter distance in feet and inches:\n";
+        cout << "Feet: ";
+        cin >> feet;
+        cout << "Inches: ";
+        cin >> inches;
+    }
+
+    void display() {
+        cout << "Distance = " << feet << " feet and " << inches << " inches\n";
+    }
+
+    friend DM add(DM, DB); 
+};
+
+DM add(DM d1, DB d2) {
+    DM result;
+
+    float dm_total_cm = d1.meters * 100 + d1.centimeters;
+    float db_total_cm = d2.feet * 30.48 + d2.inches * 2.54;
+
+    float total_cm = dm_total_cm + db_total_cm;
+
+    result.meters = (int)(total_cm / 100);
+    result.centimeters = total_cm - (result.meters * 100);
+
+    return result;
+}
+
+int main() {
+    DM d1, result;
+    DB d2;
+    d1.getData();
+    d2.getData();
+
+    result = add(d1, d2);
+
+    cout << "\n--- Added Distance (in meters and centimeters) ---\n";
+    result.display();
+
+    return 0;
+}
