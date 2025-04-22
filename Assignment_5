@@ -1,0 +1,77 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Book {
+private:
+    string *title, *author, *publisher;
+    float price;
+    int stock;
+
+public:
+  
+    Book(string t, string a, string p, float pr, int s) {
+        title = new string(t);
+        author = new string(a);
+        publisher = new string(p);
+        price = pr;
+        stock = s;
+    }
+
+    ~Book() {
+        delete title;
+        delete author;
+        delete publisher;
+    }
+
+    void displayDetails() const {
+        cout << "\n--- Book Details ---" << endl;
+        cout << "Title     : " << *title << endl;
+        cout << "Author    : " << *author << endl;
+        cout << "Publisher : " << *publisher << endl;
+        cout << "Price     : Rs. " << price << endl;
+        cout << "Stock     : " << stock << " copies" << endl;
+    }
+
+    bool matches(string t, string a) const {
+        return (*title == t && *author == a);
+    }
+
+    void purchase(int copiesRequested) {
+        if (copiesRequested <= stock) {
+            float totalCost = price * copiesRequested;
+            cout << "Total Cost for " << copiesRequested << " copies: Rs. " << totalCost << endl;
+            stock -= copiesRequested;
+        } else {
+            cout << "Sorry! Only " << stock << " copies available. Cannot fulfill the order." << endl;
+        }
+    }
+};
+
+int main() {
+    Book *b1 = new Book("C++ Basics", "Rajan", "PCCOE Publications", 299.0, 10);
+
+    string inputTitle, inputAuthor;
+    int copies;
+
+    cout << "Welcome to the Book Shop\n";
+    cout << "Enter the book title: ";
+    getline(cin, inputTitle);
+    cout << "Enter the author name: ";
+    getline(cin, inputAuthor);
+
+    if (b1->matches(inputTitle, inputAuthor)) {
+        cout << "\nBook is available in the inventory!";
+        b1->displayDetails();
+
+        cout << "\nHow many copies would you like to purchase? ";
+        cin >> copies;
+
+        b1->purchase(copies);
+    } else {
+        cout << "\nSorry, the book you're looking for is not available.\n";
+    }
+
+    delete b1;
+    return 0;
+}
