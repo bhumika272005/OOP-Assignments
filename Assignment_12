@@ -1,0 +1,45 @@
+#include <iostream>
+using namespace std;
+class Mammals {
+public:
+    void showMammalInfo() {
+        cout << "This creature is classified under Mammals." << endl;
+    }
+};
+class MarineAnimals {
+public:
+    void showMarineInfo() {
+        cout << "It thrives in the marine environment." << endl;
+    }
+};
+
+class BlueWhale : public Mammals, public MarineAnimals {
+public:
+    void showBlueWhaleInfo() {
+        cout << "I am a unique animal belonging to both Mammals and Marine Animals." << endl;
+    }
+};
+
+int main() {
+    Mammals mammal;
+    MarineAnimals marine;
+    BlueWhale whale;
+
+    mammal.showMammalInfo();
+    marine.showMarineInfo();
+    whale.showBlueWhaleInfo();
+
+    whale.showMammalInfo();
+    whale.showMarineInfo();
+
+    return 0;
+}
+
+OUTPUT
+
+This creature is classified under Mammals.
+It thrives in the marine environment.
+I am a unique animal belonging to both Mammals and Marine Animals.
+This creature is classified under Mammals.
+It thrives in the marine environment.
+
