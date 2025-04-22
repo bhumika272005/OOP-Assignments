@@ -1,0 +1,83 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class person {
+protected:
+    string name;
+    int code;
+public:
+    void getPerson() {
+        cout << "Enter name: ";
+        cin >> name;
+        cout << "Enter code: ";
+        cin >> code;
+    }
+    void showPerson() {
+        cout << "Name: " << name << "\nCode: " << code << endl;
+    }
+};
+
+class account : virtual public person {
+protected:
+    float pay;
+public:
+    void getAccount() {
+        cout << "Enter pay: ";
+        cin >> pay;
+    }
+    void showAccount() {
+        cout << "Pay: " << pay << endl;
+    }
+};
+
+class admin : virtual public person {
+protected:
+    int experience;
+public:
+    void getAdmin() {
+        cout << "Enter experience (in years): ";
+        cin >> experience;
+    }
+    void showAdmin() {
+        cout << "Experience: " << experience << " years" << endl;
+    }
+};
+
+class master : public account, public admin {
+public:
+    void create() {
+        getPerson();
+        getAccount();
+        getAdmin();
+    }
+    void update() {
+        cout << "\n--- Update Info ---\n";
+        getPerson();
+        getAccount();
+        getAdmin();
+    }
+    void display() {
+        cout << "\n--- Display Info ---\n";
+        showPerson();
+        showAccount();
+        showAdmin();
+    }
+};
+
+int main() {
+    master m;
+    m.create();
+    m.display();
+
+    char choice;
+    cout << "\nDo you want to update the information? (y/n): ";
+    cin >> choice;
+
+    if (choice == 'y' || choice == 'Y') {
+        m.update();
+        m.display();
+    }
+
+    return 0;
+}
