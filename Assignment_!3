@@ -1,0 +1,76 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int rollCounter = 1; 
+
+class Marks {
+protected:
+    int rollNo;
+    string name;
+public:
+    void inputBasicInfo() {
+        rollNo = rollCounter++;
+        cout << "\nEnter name: ";
+        cin >> name;
+    }
+    void displayBasicInfo() const {
+        cout << "Roll No: " << rollNo << ", Name: " << name << endl;
+    }
+};
+class Student : public Marks {
+private:
+    int physics, chemistry, math;
+
+public:
+    void inputMarks() {
+        inputBasicInfo();
+        cout << "Enter Physics marks: ";
+        cin >> physics;
+        cout << "Enter Chemistry marks: ";
+        cin >> chemistry;
+        cout << "Enter Mathematics marks: ";
+        cin >> math;
+    }
+
+    void displayMarks() const {
+        displayBasicInfo();
+        cout << "Physics: " << physics
+             << ", Chemistry: " << chemistry
+             << ", Mathematics: " << math << endl;
+    }
+
+    int totalMarks() const {
+        return physics + chemistry + math;
+    }
+
+    float averageMarks() const {
+        return totalMarks() / 3.0;
+    }
+};
+int main() {
+    int n;
+    cout << "Enter number of students: ";
+    cin >> n;
+
+    Student* students = new Student[n];
+    int totalClassMarks = 0;
+
+    for (int i = 0; i < n; ++i) {
+        cout << "\n--- Enter data for student " << i + 1 << " ---" << endl;
+        students[i].inputMarks();
+    }
+    cout << "\n========= STUDENT DETAILS =========\n";
+    for (int i = 0; i < n; ++i) {
+        cout << "\nStudent " << i + 1 << ":" << endl;
+        students[i].displayMarks();
+        int total = students[i].totalMarks();
+        cout << "Total Marks: " << total << ", Average: " << students[i].averageMarks() << endl;
+        totalClassMarks += total;
+    }
+
+    float classAverage = static_cast<float>(totalClassMarks) / (n * 3);
+    cout << "\nClass Average Marks: " << classAverage << endl;
+    delete[] students;
+    return 0;
+}
