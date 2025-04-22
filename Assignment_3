@@ -1,0 +1,108 @@
+#include <iostream>
+using namespace std;
+
+class Employee {
+protected:
+    string name;
+    int empID;
+
+public:
+    void inputBasicDetails() {
+        cout << "Enter employee name: ";
+        cin.ignore(); // Clear input buffer
+        getline(cin, name);
+        cout << "Enter employee ID: ";
+        cin >> empID;
+    }
+
+    void displayBasicDetails() const {
+        cout << "Name       : " << name << endl;
+        cout << "Employee ID: " << empID << endl;
+    }
+};
+
+class Teacher : public Employee {
+private:
+    string subject;
+    int publications;
+
+public:
+    void inputDetails() {
+        inputBasicDetails();
+        cout << "Enter subject taught: ";
+        cin.ignore();
+        getline(cin, subject);
+        cout << "Enter number of publications: ";
+        cin >> publications;
+    }
+
+    void displayDetails() const {
+        cout << "\n--- Teacher Details ---\n";
+        displayBasicDetails();
+        cout << "Subject    : " << subject << endl;
+        cout << "Publications: " << publications << endl;
+    }
+};
+
+class Officer : public Employee {
+private:
+    char grade;
+
+public:
+    void inputDetails() {
+        inputBasicDetails();
+        cout << "Enter grade (A/B/C): ";
+        cin >> grade;
+    }
+
+    void displayDetails() const {
+        cout << "\n--- Officer Details ---\n";
+        displayBasicDetails();
+        cout << "Grade      : " << grade << endl;
+    }
+};
+
+class Typist : public Employee {
+protected:
+    float typingSpeed;
+    string typistType;
+
+public:
+    void inputDetails() {
+        inputBasicDetails();
+        cout << "Enter typist type (Regular/Casual): ";
+        cin.ignore();
+        getline(cin, typistType);
+        cout << "Enter typing speed (wpm): ";
+        cin >> typingSpeed;
+    }
+
+    void displayDetails() const {
+        cout << "\n--- Typist Details ---\n";
+        displayBasicDetails();
+        cout << "Typist Type: " << typistType << endl;
+        cout << "Typing Speed: " << typingSpeed << " WPM" << endl;
+    }
+};
+
+int main() {
+    Teacher teacher;
+    Officer officer;
+    Typist typist;
+
+    cout << "=== ENTER TEACHER INFO ===\n";
+    teacher.inputDetails();
+
+    cout << "\n=== ENTER OFFICER INFO ===\n";
+    officer.inputDetails();
+
+    cout << "\n=== ENTER TYPIST INFO ===\n";
+    typist.inputDetails();
+
+    // Display all data
+    teacher.displayDetails();
+    officer.displayDetails();
+    typist.displayDetails();
+
+    return 0;
+}
