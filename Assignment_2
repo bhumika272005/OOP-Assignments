@@ -1,114 +1,112 @@
-#include <iostream>
-#include <string>
+#include <bits/stdc++.h>
 using namespace std;
 
-class Account {
+class Account
+{
 public:
-    string customerName;
-    int accountNumber;
+    string name;
+    int acc_num;
+    string acc_type;
     float balance;
 
-    Account() {
-        accountNumber = 0;
-        balance = 0.0;
+    Account(string name, int acc_num, string acc_type, float balance)
+    {
+        this->name = name;
+        this->acc_num = acc_num;
+        this->acc_type = acc_type;
+        this->balance = balance;
     }
 
-    void getAccountDetails() {
-        cout << "Enter customer name: ";
-        cin >> customerName;
-        cout << "Enter account number: ";
-        cin >> accountNumber;
-        cout << "Enter opening balance: ";
-        cin >> balance;
-    }
-    void addDeposit() {
-        float depositAmount;
-        cout << "Enter deposit amount: ";
-        cin >> depositAmount;
-        balance += depositAmount;
-        cout << "Deposit successful!\n";
+    void check_bal()
+    {
+        cout << "Current Balance : " << balance << endl;
     }
 
-    void showBalance() {
-        cout << "Current balance: Rs. " << balance << endl;
+    void deposit()
+    {
+        float amount;
+        cout << "Enter amount to deposit: "<<endl;
+        cin >> amount;
+
+        balance += amount;
+        cout << "Amount deposited successfully" << endl;
+        cout << "New balance: " << balance << endl;
+    }
+
+    void deposit(float amount)
+    {
+        balance += amount;
+        cout << "Amount deposited successfully (interest added)" << endl;
+        cout << "New balance: " << balance << endl;
+    }
+
+    void withdraw()
+    {
+        float amount;
+        cout << "Enter amount to withdraw: "<<endl;
+        cin >> amount;
+
+        if (amount > balance)
+        {
+            cout << "Insufficient Balance!" << endl;
+        }
+        else
+        {
+            balance -= amount;
+            cout << "Withdrawal successful" << endl;
+            cout << "New balance: " << balance << endl;
+        }
     }
 };
 
-class SavingAccount : public Account {
+class Savings_acc : public Account
+{
 public:
-    void applyInterest() {
-        float rate;
-        int years;
-        cout << "Enter annual interest rate (%): ";
-        cin >> rate;
-        cout << "Enter duration in years: ";
-        cin >> years;
-        float interest = (balance * rate * years) / 100;
-        balance += interest;
-        cout << "Interest of Rs. " << interest << " added to your balance.\n";
-    }
+    Savings_acc(string name, int acc_num, string acc_type, float balance)
+        : Account(name, acc_num, acc_type, balance) {}
 
-    void makeWithdrawal() {
-        float withdrawAmount;
-        cout << "Enter withdrawal amount: ";
-        cin >> withdrawAmount;
-        if (withdrawAmount <= balance) {
-            balance -= withdrawAmount;
-            cout << "Withdrawal successful.\n";
-        } else {
-            cout << "Insufficient funds.\n";
-        }
+    void comp_interest(float rate, int time)
+    {
+        float interest = balance * pow((1 + rate / 100), time) - balance;
+        cout << "Interest computed: " << interest << endl;
+        deposit(interest);
     }
 };
 
-class CurrentAccount : public Account {
+class Current_acc : public Account
+{
 public:
-    void makeWithdrawal() {
-        float withdrawAmount;
-        cout << "Enter withdrawal amount: ";
-        cin >> withdrawAmount;
-        if (withdrawAmount <= balance) {
-            balance -= withdrawAmount;
-            cout << "Withdrawal successful.\n";
-        } else {
-            cout << "Insufficient funds.\n";
-        }
-        enforceMinBalance();
-    }
+    float min_bal = 1000;
+    float service_charge = 100;
 
-    void enforceMinBalance() {
-        if (balance < 1000) {
-            cout << "Balance below minimum required. Rs. 100 penalty applied.\n";
-            balance -= 100;
+    Current_acc(string name, int acc_num, string acc_type, float balance)
+        : Account(name, acc_num, acc_type, balance) {}
+
+    void check_min_bal()
+    {
+        if (balance < min_bal)
+        {
+            balance -= service_charge;
+            cout << "Service charge applied!" << endl;
+            cout << "Balance after deducting service charge: " << balance << endl;
         }
-    }
 };
 
-int main() {
-    int choice;
-    SavingAccount savingsAcc;
-    CurrentAccount currentAcc;
+int main()
+{
+    float balance = 100000;
 
-    cout << "Select Account Type:\n1. Savings Account\n2. Current Account\nYour choice: ";
-    cin >> choice;
+    cout<<"For Savings Account "<<endl;
+    Savings_acc S("Ansh", 1, "Savings", balance);
+    S.deposit();
+    S.withdraw();
+    S.check_bal();
+    S.comp_interest(5, 3);
 
-    if (choice == 1) {
-        cout << "\n--- Savings Account Operations ---\n";
-        savingsAcc.getAccountDetails();
-        savingsAcc.addDeposit();
-        savingsAcc.applyInterest();
-        savingsAcc.makeWithdrawal();
-        savingsAcc.showBalance();
-    } else if (choice == 2) {
-        cout << "\n--- Current Account Operations ---\n";
-        currentAcc.getAccountDetails();
-        currentAcc.addDeposit();
-        currentAcc.showBalance();
-        currentAcc.makeWithdrawal();
-        currentAcc.showBalance();
-    } else {
-        cout << "Invalid option selected.\n";
-    }
-
-    return 0;
+    cout<<"For Current Account "<<endl;
+    Current_acc C("Ansh", 2, "Current", balance);
+    C.deposit();
+    C.withdraw();
+    C.check_bal();
+    C.check_min_bal();
 }
