@@ -99,7 +99,6 @@ int main() {
     cout << "\n=== ENTER TYPIST INFO ===\n";
     typist.inputDetails();
 
-    // Display all data
     teacher.displayDetails();
     officer.displayDetails();
     typist.displayDetails();
