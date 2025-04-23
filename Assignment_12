@@ -35,11 +35,3 @@ int main() {
     return 0;
 }
 
-OUTPUT
-
-This creature is classified under Mammals.
-It thrives in the marine environment.
-I am a unique animal belonging to both Mammals and Marine Animals.
-This creature is classified under Mammals.
-It thrives in the marine environment.
-
