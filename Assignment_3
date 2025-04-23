@@ -1,107 +1,72 @@
 #include <iostream>
 using namespace std;
 
-class Employee {
-protected:
+class Staff {
+public:
+    int code;
     string name;
-    int empID;
 
-public:
-    void inputBasicDetails() {
-        cout << "Enter employee name: ";
-        cin.ignore(); // Clear input buffer
+    void getData() {
+        cout << "Enter Staff Code: ";
+        cin >> code;
+        cin.ignore();
+        cout << "Enter Staff Name: ";
         getline(cin, name);
-        cout << "Enter employee ID: ";
-        cin >> empID;
     }
 
-    void displayBasicDetails() const {
-        cout << "Name       : " << name << endl;
-        cout << "Employee ID: " << empID << endl;
+    void showData() {
+        cout << "Code: " << code << ", Name: " << name << endl;
     }
 };
 
-class Teacher : public Employee {
-private:
+class Teacher : public Staff {
+public:
     string subject;
-    int publications;
 
-public:
-    void inputDetails() {
-        inputBasicDetails();
-        cout << "Enter subject taught: ";
-        cin.ignore();
+    void getData() {
+        Staff::getData();
+        cout << "Enter Subject: ";
         getline(cin, subject);
-        cout << "Enter number of publications: ";
-        cin >> publications;
     }
 
-    void displayDetails() const {
-        cout << "\n--- Teacher Details ---\n";
-        displayBasicDetails();
-        cout << "Subject    : " << subject << endl;
-        cout << "Publications: " << publications << endl;
+    void showData() {
+        Staff::showData();
+        cout << "Subject: " << subject << endl;
     }
 };
 
-class Officer : public Employee {
-private:
-    char grade;
-
+class Typist : public Staff {
 public:
-    void inputDetails() {
-        inputBasicDetails();
-        cout << "Enter grade (A/B/C): ";
-        cin >> grade;
+    float speed;
+
+    void getData() {
+        Staff::getData();
+        cout << "Enter Typing Speed: ";
+        cin >> speed;
     }
 
-    void displayDetails() const {
-        cout << "\n--- Officer Details ---\n";
-        displayBasicDetails();
-        cout << "Grade      : " << grade << endl;
-    }
-};
-
-class Typist : public Employee {
-protected:
-    float typingSpeed;
-    string typistType;
-
-public:
-    void inputDetails() {
-        inputBasicDetails();
-        cout << "Enter typist type (Regular/Casual): ";
-        cin.ignore();
-        getline(cin, typistType);
-        cout << "Enter typing speed (wpm): ";
-        cin >> typingSpeed;
-    }
-
-    void displayDetails() const {
-        cout << "\n--- Typist Details ---\n";
-        displayBasicDetails();
-        cout << "Typist Type: " << typistType << endl;
-        cout << "Typing Speed: " << typingSpeed << " WPM" << endl;
+    void showData() {
+        Staff::showData();
+        cout << "Speed: " << speed << " wpm" << endl;
     }
 };
 
 int main() {
-    Teacher teacher;
-    Officer officer;
-    Typist typist;
+    Teacher t;
+    Typist ty;
 
-    cout << "=== ENTER TEACHER INFO ===\n";
-    teacher.inputDetails();
+    cout << "Enter Teacher Details\n";
+    t.getData();
 
-    cout << "\n=== ENTER OFFICER INFO ===\n";
-    officer.inputDetails();
+    cout << "\n Enter Typist Details\n";
+    ty.getData();
 
-    cout << "\n=== ENTER TYPIST INFO ===\n";
-    typist.inputDetails();
+    cout << "\nDisplaying Details \n";
+    cout << "\nTeacher:\n";
+    t.showData();
 
-    teacher.displayDetails();
-    officer.displayDetails();
-    typist.displayDetails();
+    cout << "\nTypist:\n";
+    ty.showData();
 
     return 0;
 }
