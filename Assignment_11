@@ -33,10 +33,4 @@ int main() {
     return 0;
 }
 
- OUTPUT 
-I am part of the Mammals group.
-I live in the marine world.
-I belong to both Mammals and Marine Animals.
-I am part of the Mammals group.
-I live in the marine world.
-
+ 
